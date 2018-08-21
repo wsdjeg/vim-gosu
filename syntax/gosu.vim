@@ -1,9 +1,9 @@
 " Vim syntax file
 " Language:	Gosu
 " Maintainer:   vim-gosu community	
-" URL:		http://github.com/colmcdonagh/vim-gosu/syntax/java.vim
+" URL:		http://github.com/colmcdonagh/vim-gosu/syntax/gosu.vim
 
-" Please check :help java.vim for comments on some of the options available.
+" Please check :help gosu.vim for comments on some of the options available.
 
 " quit when a syntax file was already loaded
 if !exists("main_syntax")
@@ -11,7 +11,7 @@ if !exists("main_syntax")
     finish
   endif
   " we define it here so that included files can test for it
-  let main_syntax='java'
+  let main_syntax='gosu'
   syn region javaFold start="{" end="}" transparent fold
 endif
 
@@ -31,6 +31,17 @@ hi def link javaError2 javaError
 
 
 " keyword definitions
+
+" gosu definitions
+syn keyword gosuType		var
+syn keyword gosuStorageClass	readonly
+syn keyword gosuModifier	in as
+syn keyword gosuFunc 		print get set
+syn keyword gosuExternal	uses
+syn keyword gosuClasspath	classpath
+syn keyword gosuUsing		using
+
+" java definitions
 syn keyword javaExternal	native package
 syn match javaExternal		"\<import\>\(\s\+static\>\)\?"
 syn keyword javaError		goto const
@@ -257,6 +268,17 @@ endif
 exec "syn sync ccomment javaComment minlines=" . java_minlines
 
 " The default highlighting.
+
+" gosu definitions
+hi def link gosuFunc			Function
+hi def link gosuModifier		Special
+hi def link gosuType			Type
+hi def link gosuStorageClass		StorageClass
+hi def link gosuExternal 		Include
+hi def link gosuClasspath		Constant	
+hi def link gosuUsing			Special
+
+" java definitions
 hi def link javaLambdaDef		Function
 hi def link javaFuncDef		Function
 hi def link javaVarArg			Function
@@ -306,9 +328,9 @@ hi def link htmlComment		Special
 hi def link htmlCommentPart		Special
 hi def link javaSpaceError		Error
 
-let b:current_syntax = "java"
+let b:current_syntax = "gosu"
 
-if main_syntax == 'java'
+if main_syntax == 'gosu'
   unlet main_syntax
 endif
 
