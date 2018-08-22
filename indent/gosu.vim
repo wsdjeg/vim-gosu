@@ -12,16 +12,17 @@ let b:did_indent = 1
 " Indent Java anonymous classes correctly.
 setlocal cindent cinoptions& cinoptions+=j1
 
-" The "extends" and "implements" lines start off with the wrong indent.
-setlocal indentkeys& indentkeys+=0=extends indentkeys+=0=implements
+" The "extends", "implements" and "enhancement" lines start off with the wrong indent
+" but are aligned correctly at a later point.
+setlocal indentkeys& indentkeys+=0=extends indentkeys+=0=implements indentkeys+=0=enhancement
 
 " Set the function to do the work.
-setlocal indentexpr=GetJavaIndent()
+setlocal indentexpr=GetGosuIndent()
 
 let b:undo_indent = "set cin< cino< indentkeys< indentexpr<"
 
 " Only define the function once.
-if exists("*GetJavaIndent")
+if exists("*GetGosuIndent")
   finish
 endif
 
@@ -50,7 +51,7 @@ function! SkipJavaBlanksAndComments(startline)
   return lnum
 endfunction
 
-function GetJavaIndent()
+function GetGosuIndent()
 
   " Java is just like C; use the built-in C indenting and then correct a few
   " specific cases.
@@ -79,16 +80,16 @@ function GetJavaIndent()
     let prev = next_prev
   endwhile
 
-  " Try to align "throws" lines for methods and "extends" and "implements" for
+  " Try to align "throws" lines for methods and "extends", "implements" and "enhancement" for
   " classes.
-  if getline(v:lnum) =~ '^\s*\(throws\|extends\|implements\)\>'
-        \ && getline(lnum) !~ '^\s*\(throws\|extends\|implements\)\>'
+  if getline(v:lnum) =~ '^\s*\(throws\|extends\|implements\|enhancement\)\>'
+        \ && getline(lnum) !~ '^\s*\(throws\|extends\|implements\|enhancement\)\>'
     let theIndent = theIndent + shiftwidth()
   endif
 
-  " correct for continuation lines of "throws", "implements" and "extends"
+  " correct for continuation lines of "throws", "implements", "enhancement" and "extends"
   let cont_kw = matchstr(getline(prev),
-        \ '^\s*\zs\(throws\|implements\|extends\)\>\ze.*,\s*$')
+        \ '^\s*\zs\(throws\|implements\|extends\|enhancement\)\>\ze.*,\s*$')
   if strlen(cont_kw) > 0
     let amount = strlen(cont_kw) + 1
     if getline(lnum) !~ ',\s*$'
@@ -102,7 +103,7 @@ function GetJavaIndent()
         let theIndent = theIndent + shiftwidth()
       endif
     endif
-  elseif getline(prev) =~ '^\s*\(throws\|implements\|extends\)\>'
+  elseif getline(prev) =~ '^\s*\(throws\|implements\|extends\|enhancement\)\>'
         \ && (getline(prev) =~ '{\s*$'
         \  || getline(v:lnum) =~ '^\s*{\s*$')
     let theIndent = theIndent - shiftwidth()
@@ -117,7 +118,7 @@ function GetJavaIndent()
     if lnum < v:lnum
       while lnum > 1
         let next_lnum = SkipJavaBlanksAndComments(lnum - 1)
-        if getline(lnum) !~ '^\s*\(throws\|extends\|implements\)\>'
+        if getline(lnum) !~ '^\s*\(throws\|extends\|implements\|enhancement\)\>'
               \ && getline(next_lnum) !~ ',\s*$'
           break
         endif

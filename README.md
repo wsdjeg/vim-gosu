@@ -1,16 +1,22 @@
 # vim-gosu
 ## Syntax highlighting for gosu-lang.
 
-Mainly adding keyword highliting, may extend indentation support.
-Here are some example images:
+Based off of vim's own Java syntax highlighting.
 
-![Alt text](images/exProg1.png?raw=true "ex1")
+Some example images:
 
-![Alt text](images/exProg2.png?raw=true "ex2")
+![example program 1](images/exProg1.png?raw=true "ex1")
 
-![Alt text](images/exClass1.png?raw=true "ex3")
+![example program 2](images/exProg2.png?raw=true "ex2")
 
-![Alt text](images/exClass2.png?raw=true "ex4")
+![example class 1](images/exClass1.png?raw=true "ex3")
+
+![example class 2](images/exClass2.png?raw=true "ex4")
 
 Recommended color scheme (used in these images): 'yeller' from github.com/flazz/vim-colorschemes
 
+### Possible Expansions
+* Debugging
+* Compiling
+
+~~Contributions welcome~~

@@ -30,7 +30,7 @@ setlocal formatoptions-=t formatoptions+=croql
 " Set 'comments' to format dashed lists in comments. Behaves just like C.
 setlocal comments& comments^=sO:*\ -,mO:*\ \ ,exO:*/
 
-setlocal commentstring=//%s
+setlocal commentstring=//\ %s
 
 " Undo the stuff we changed.
 let b:undo_ftplugin = "setlocal suffixes< suffixesadd<" .
