@@ -19,7 +19,7 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 " some characters that cannot be in a java program (outside a string)
-syn match javaError "[\\@`]"
+syn match javaError "[@`]"
 syn match javaError "<<<\|\.\.\|=>\|||=\|&&=\|\*\/"
 
 syn match javaOK "\.\.\."
@@ -33,13 +33,16 @@ hi def link javaError2 javaError
 " keyword definitions
 
 " gosu definitions
-syn keyword gosuType		var
+syn keyword gosuType		var property get set delegate
 syn keyword gosuStorageClass	readonly
-syn keyword gosuModifier	in as
-syn keyword gosuFunc 		print get set
+syn keyword gosuSpecial		in as using represents
+syn keyword gosuFunc 		print construct function
 syn keyword gosuExternal	uses
-syn keyword gosuClasspath	classpath
-syn keyword gosuUsing		using
+syn keyword gosuConstant	classpath
+syn keyword gosuRepeat		params
+syn match gosuShebang		"#!\s.*$"		 
+syn keyword gosuOperator	\->
+syn keyword gosuClassDecl	enhancement
 
 " java definitions
 syn keyword javaExternal	native package
@@ -130,7 +133,7 @@ syn keyword javaLabel		default
 " annoying.  Was: if !exists("java_allow_cpp_keywords")
 
 " The following cluster contains all java groups except the contained ones
-syn cluster javaTop add=javaExternal,javaError,javaError,javaBranch,javaLabelRegion,javaLabel,javaConditional,javaRepeat,javaBoolean,javaConstant,javaTypedef,javaOperator,javaType,javaType,javaStatement,javaStorageClass,javaAssert,javaExceptions,javaMethodDecl,javaClassDecl,javaClassDecl,javaClassDecl,javaScopeDecl,javaError,javaError2,javaUserLabel,javaLangObject,javaAnnotation,javaVarArg
+syn cluster javaTop add=javaExternal,javaError,javaError,javaBranch,javaLabelRegion,javaLabel,javaConditional,javaRepeat,javaBoolean,javaConstant,javaTypedef,javaOperator,gosuType,gosuSpecial,javaType,javaType,javaStatement,javaStorageClass,javaAssert,javaExceptions,javaMethodDecl,javaClassDecl,javaClassDecl,javaClassDecl,javaScopeDecl,javaError,javaError2,javaUserLabel,javaLangObject,javaAnnotation,javaVarArg
 
 
 " Comments
@@ -179,17 +182,17 @@ syn cluster javaTop add=javaString,javaCharacter,javaNumber,javaSpecial,javaStri
 
 if exists("java_highlight_functions")
   if java_highlight_functions == "indent"
-    syn match  javaFuncDef "^\(\t\| \{8\}\)[_$a-zA-Z][_$a-zA-Z0-9_. \[\]<>]*([^-+*/]*)" contains=javaScopeDecl,javaType,javaStorageClass,@javaClasses,javaAnnotation
-    syn region javaFuncDef start=+^\(\t\| \{8\}\)[$_a-zA-Z][$_a-zA-Z0-9_. \[\]<>]*([^-+*/]*,\s*+ end=+)+ contains=javaScopeDecl,javaType,javaStorageClass,@javaClasses,javaAnnotation
-    syn match  javaFuncDef "^  [$_a-zA-Z][$_a-zA-Z0-9_. \[\]<>]*([^-+*/]*)" contains=javaScopeDecl,javaType,javaStorageClass,@javaClasses,javaAnnotation
-    syn region javaFuncDef start=+^  [$_a-zA-Z][$_a-zA-Z0-9_. \[\]<>]*([^-+*/]*,\s*+ end=+)+ contains=javaScopeDecl,javaType,javaStorageClass,@javaClasses,javaAnnotation
+    syn match  javaFuncDef "^\(\t\| \{8\}\)[_$a-zA-Z][_$a-zA-Z0-9_. \[\]<>]*([^-+*/]*)" contains=javaScopeDecl,gosuSpecial,javaType,javaStorageClass,@javaClasses,javaAnnotation
+    syn region javaFuncDef start=+^\(\t\| \{8\}\)[$_a-zA-Z][$_a-zA-Z0-9_. \[\]<>]*([^-+*/]*,\s*+ end=+)+ contains=javaScopeDecl,gosuSpecial,javaType,javaStorageClass,@javaClasses,javaAnnotation
+    syn match  javaFuncDef "^  [$_a-zA-Z][$_a-zA-Z0-9_. \[\]<>]*([^-+*/]*)" contains=javaScopeDecl,gosuSpecial,javaType,javaStorageClass,@javaClasses,javaAnnotation
+    syn region javaFuncDef start=+^  [$_a-zA-Z][$_a-zA-Z0-9_. \[\]<>]*([^-+*/]*,\s*+ end=+)+ contains=javaScopeDecl,gosuSpecial,javaType,javaStorageClass,@javaClasses,javaAnnotation
   else
     " This line catches method declarations at any indentation>0, but it assumes
     " two things:
     "	1. class names are always capitalized (ie: Button)
     "	2. method names are never capitalized (except constructors, of course)
     "syn region javaFuncDef start=+^\s\+\(\(public\|protected\|private\|static\|abstract\|final\|native\|synchronized\)\s\+\)*\(\(void\|boolean\|char\|byte\|short\|int\|long\|float\|double\|\([A-Za-z_][A-Za-z0-9_$]*\.\)*[A-Z][A-Za-z0-9_$]*\)\(<[^>]*>\)\=\(\[\]\)*\s\+[a-z][A-Za-z0-9_$]*\|[A-Z][A-Za-z0-9_$]*\)\s*([^0-9]+ end=+)+ contains=javaScopeDecl,javaType,javaStorageClass,javaComment,javaLineComment,@javaClasses
-    syn region javaFuncDef start=+^\s\+\(\(public\|protected\|private\|static\|abstract\|final\|native\|synchronized\)\s\+\)*\(<.*>\s\+\)\?\(\(void\|boolean\|char\|byte\|short\|int\|long\|float\|double\|\([A-Za-z_][A-Za-z0-9_$]*\.\)*[A-Z][A-Za-z0-9_$]*\)\(<[^(){}]*>\)\=\(\[\]\)*\s\+[a-z][A-Za-z0-9_$]*\|[A-Z][A-Za-z0-9_$]*\)\s*(+ end=+)+ contains=javaScopeDecl,javaType,javaStorageClass,javaComment,javaLineComment,@javaClasses,javaAnnotation
+    syn region javaFuncDef start=+^\s\+\(\(public\|protected\|private\|static\|abstract\|final\|native\|synchronized\)\s\+\)*\(<.*>\s\+\)\?\(\(void\|boolean\|char\|byte\|short\|int\|long\|float\|double\|\([A-Za-z_][A-Za-z0-9_$]*\.\)*[A-Z][A-Za-z0-9_$]*\)\(<[^(){}]*>\)\=\(\[\]\)*\s\+[a-z][A-Za-z0-9_$]*\|[A-Z][A-Za-z0-9_$]*\)\s*(+ end=+)+ contains=javaScopeDecl,gosuSpecial,javaType,javaStorageClass,javaComment,javaLineComment,@javaClasses,javaAnnotation
   endif
   syn match javaLambdaDef "[a-zA-Z_][a-zA-Z0-9_]*\s*->"
   syn match  javaBraces  "[{}]"
@@ -271,12 +274,14 @@ exec "syn sync ccomment javaComment minlines=" . java_minlines
 
 " gosu definitions
 hi def link gosuFunc			Function
-hi def link gosuModifier		Special
+hi def link gosuSpecial			Special
 hi def link gosuType			Type
 hi def link gosuStorageClass		StorageClass
 hi def link gosuExternal 		Include
-hi def link gosuClasspath		Constant	
-hi def link gosuUsing			Special
+hi def link gosuConstant		Constant	
+hi def link gosuRepeat 			Repeat
+hi def link gosuShebang			SpecialComment
+hi def link gosuClassDecl		StorageClass
 
 " java definitions
 hi def link javaLambdaDef		Function
