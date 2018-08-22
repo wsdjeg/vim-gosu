@@ -1,7 +1,7 @@
 # vim-gosu
-## Syntax highlighting for gosu-lang.
+Syntax highlighting for gosu-lang based off of vim's own Java syntax highlighting. 
 
-Based off of vim's own Java syntax highlighting.
+---
 
 Some example images:
 
@@ -15,8 +15,12 @@ Some example images:
 
 Recommended color scheme (used in these images): 'yeller' from github.com/flazz/vim-colorschemes
 
-### Possible Expansions
+
+## Possible Expansions
 * Debugging
 * Compiling
 
-~~Contributions welcome~~
+  
+
+---
+*Contributions welcome*
