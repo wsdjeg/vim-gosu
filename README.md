@@ -5,15 +5,15 @@ Syntax highlighting for gosu-lang based off of vim's own Java syntax highlightin
 
 Some example images:
 
-![example program 1](images/exProg1.png?raw=true "ex1")
+<img src="./images/exClass1.png" height="600" />
+<img src="./images/exProg1.png" height="150" />
+<img src="./images/exProg2.png" height="240" />
+<img src="./images/exClass2.png" height="350" />
 
-![example program 2](images/exProg2.png?raw=true "ex2")
+---
 
-![example class 1](images/exClass1.png?raw=true "ex3")
-
-![example class 2](images/exClass2.png?raw=true "ex4")
-
-Recommended color scheme (used in these images): 'yeller' from github.com/flazz/vim-colorschemes
+## Color schemes
+Color schemes which use a lot of different colors for different types of keywords are preferable. I would ecommended 'yeller' from github.com/flazz/vim-colorschemes, which is used in the above images.
 
 
 ## Possible Expansions
